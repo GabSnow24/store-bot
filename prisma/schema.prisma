@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  cellphone String 
+  name     String
+  password String
+  log      Log?
+  role     Roles
+}
+
+
+model Log {
+  id        String   @id @default(uuid())
+  timeStamp DateTime
+  action    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  type      LogType
+}
+
+enum Roles {
+  ADMIN
+  USER
+}
+
+enum LogType {
+  INFO
+  WARN
+  ERROR
+}
