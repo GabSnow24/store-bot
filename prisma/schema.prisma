@@ -12,14 +12,13 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  cellphone String 
-  name     String
-  password String
-  log      Log?
-  role     Roles
+  id        String @id @default(uuid())
+  cellphone String
+  username  String @unique
+  password  String
+  log       Log?
+  role      Roles
 }
-
 
 model Log {
   id        String   @id @default(uuid())
