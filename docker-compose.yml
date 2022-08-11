@@ -63,6 +63,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./infra/prometheus/alert.rules:/etc/prometheus/alert.rules
       - ./infra/prometheus/prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -77,6 +78,19 @@ services:
       - monit
     depends_on:
       - proxy-bot-wpp
+  alertmanager-bot-wpp:
+    image: prom/alertmanager
+    container_name: alertmanager-bot-wpp
+    volumes:
+      - ./infra/alertmanager:/etc/alertmanager/:ro
+    ports:
+      - 9093:9093
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+    networks:
+      - monit
+    depends_on:
+      - prometheus-bot-wpp
   grafana-bot-wpp:
     image: grafana/grafana
     container_name: grafana-bot-wpp
@@ -88,5 +102,5 @@ services:
     networks:
       - monit
     depends_on:
-      - prometheus-bot-wpp
+      - alertmanager-bot-wpp
 

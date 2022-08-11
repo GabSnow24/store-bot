@@ -1,21 +1,15 @@
 import { ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { passwordHasher } from 'src/utils/encrypt.utils'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import * as bcrypt from 'bcrypt'
 
-async function passwordHasher(password: string) {
-  const salt = await bcrypt.genSalt()
-  const hash = await bcrypt.hash(password, salt)
-  return { hash }
+const userInfoReturn = {
+  id: true,
+  username: true,
+  cellphone: true,
+  role: true
 }
-
-function sleep(ms: number | undefined) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
-
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
@@ -50,11 +44,7 @@ export class UserService {
 
   findAll() {
     return this.prisma.user.findMany({
-      select: {
-        username: true,
-        cellphone: true,
-        role: true
-      }
+      select: userInfoReturn
     })
   }
 
@@ -63,11 +53,7 @@ export class UserService {
       where: {
         id
       },
-      select: {
-        username: true,
-        cellphone: true,
-        role: true
-      }
+      select: userInfoReturn
     })
     if (!foundUser) {
       Logger.error('User not found', '', 'UserService', true)
@@ -90,14 +76,9 @@ export class UserService {
   }
 
   async update(id: string, data: UpdateUserDto) {
-    const foundUser = await this.prisma.user.findUniqueOrThrow({
+    const foundUser = await this.prisma.user.findUnique({
       where: {
         id
-      },
-      select: {
-        username: true,
-        cellphone: true,
-        role: true
       }
     })
     if (!foundUser) {
@@ -109,21 +90,17 @@ export class UserService {
       where: {
         id
       },
-      data
+      data,
+      select: userInfoReturn
     })
 
     return updatedUser
   }
 
   async remove(id: string) {
-    const foundUser = await this.prisma.user.findUniqueOrThrow({
+    const foundUser = await this.prisma.user.findUnique({
       where: {
         id
-      },
-      select: {
-        username: true,
-        cellphone: true,
-        role: true
       }
     })
     if (!foundUser) {
