@@ -4,12 +4,14 @@ import { PromModule } from '@digikare/nestjs-prom'
 import { AuthModule } from './auth/auth.module'
 import { LoggingModule } from './common/logging.module'
 import { ScheduleModule } from '@nestjs/schedule'
+import { EventEmitterModule } from '@nestjs/event-emitter'
 
 //IMPLEMENT RATE LIMIT
 @Module({
   imports: [
     UserModule,
     LoggingModule,
+    EventEmitterModule.forRoot(),
     PromModule.forRoot({
       defaultLabels: {
         app: process.env.APP_NAME || 'bot-wpp',
@@ -23,6 +25,7 @@ import { ScheduleModule } from '@nestjs/schedule'
     AuthModule,
     ScheduleModule.forRoot()
   ],
-  controllers: []
+  controllers: [],
+  providers: []
 })
 export class AppModule {}
