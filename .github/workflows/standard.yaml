@@ -44,7 +44,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
   ci_docker_dev:
     name: CI - Docker
-    if: ${{ success() && github.event_name != 'pull_request_target' && github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/develop }}
+    if: ${{ success() && github.event_name != 'pull_request_target' && github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/master }}
     runs-on: ubuntu-latest
     steps:
       - name: Publish to DockerHub
