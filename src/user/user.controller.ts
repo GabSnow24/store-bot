@@ -2,8 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nes
 import { UserService } from './user.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
-import { AuthorizatedGuard } from 'src/auth/authorizated.guard'
+import { JwtAuthGuard } from '../auth/jwt-auth.guard'
 import { OnEvent } from '@nestjs/event-emitter'
 import { PromService } from '@digikare/nestjs-prom'
 
