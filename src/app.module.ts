@@ -5,7 +5,8 @@ import { AuthModule } from './auth/auth.module'
 import { LoggingModule } from './common/logging.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { EventEmitterModule } from '@nestjs/event-emitter'
-import { ThrottlerModule } from '@nestjs/throttler'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
+import { APP_GUARD } from '@nestjs/core'
 
 //IMPLEMENT RATE LIMIT
 @Module({
@@ -31,6 +32,11 @@ import { ThrottlerModule } from '@nestjs/throttler'
     })
   ],
   controllers: [],
-  providers: []
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ]
 })
 export class AppModule {}
