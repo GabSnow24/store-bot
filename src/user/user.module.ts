@@ -2,11 +2,22 @@ import { Module } from '@nestjs/common'
 import { UserService } from './user.service'
 import { UserController } from './user.controller'
 import { PrismaService } from '../prisma/prisma.service'
-import { JwtStrategy } from 'src/auth/jwt.strategy'
+import { JwtStrategy } from '../auth/jwt.strategy'
 import { PromService } from '@digikare/nestjs-prom'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard } from '@nestjs/throttler'
 
 @Module({
   controllers: [UserController],
-  providers: [UserService, PrismaService, JwtStrategy, PromService]
+  providers: [
+    UserService,
+    PrismaService,
+    JwtStrategy,
+    PromService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ]
 })
 export class UserModule {}

@@ -13,7 +13,6 @@ const DEFAULT_API_VERSION = '1'
 const DEFAULT_API_PORT = 3000
 const loggerInstance = new Logger('Bootstrap')
 
-//TODO LATENCY INTERCEPTOR
 //TODO FILTERS
 //TODO CACHING SERVER
 async function bootstrap() {

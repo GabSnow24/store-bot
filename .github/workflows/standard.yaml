@@ -1,0 +1,55 @@
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - release/**
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    branches:
+      - '*'
+    paths-ignore:
+      - '**/*.md'
+  workflow_dispatch:
+
+name: Standard
+
+jobs:
+  ci:
+    name: CI - Build and Test
+    if: ${{ success() && github.event_name != 'pull_request_target' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub Event Name
+        id: github_event_name
+        run: echo '${{ github.event_name }}'
+      - uses: actions/checkout@v3
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/checkout@v3
+        if: ${{ github.event_name != 'pull_request' }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+      - run: yarn install
+      - run: npx prisma generate
+      - run: yarn run test:ci
+      - uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  ci_docker_dev:
+    name: CI - Docker
+    if: ${{ success() && github.event_name != 'pull_request_target' && github.event_name != 'pull_request' && github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish to DockerHub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: qzzdocker24/bot-wpp
+          tags: dev

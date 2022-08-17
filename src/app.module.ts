@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module'
 import { LoggingModule } from './common/logging.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { EventEmitterModule } from '@nestjs/event-emitter'
+import { ThrottlerModule } from '@nestjs/throttler'
 
 //IMPLEMENT RATE LIMIT
 @Module({
@@ -23,7 +24,11 @@ import { EventEmitterModule } from '@nestjs/event-emitter'
       metricPath: 'prometheus'
     }),
     AuthModule,
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10
+    })
   ],
   controllers: [],
   providers: []
