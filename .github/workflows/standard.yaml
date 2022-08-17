@@ -18,7 +18,7 @@ name: Standard
 jobs:
   ci:
     name: CI - Sonar and Test
-    if: ${{ success() && github.event_name != 'pull_request' }}
+    if: ${{ success() && github.event_name != 'pull_request_target' }}
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub Event Name
