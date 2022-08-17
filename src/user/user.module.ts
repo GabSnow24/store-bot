@@ -9,15 +9,6 @@ import { ThrottlerGuard } from '@nestjs/throttler'
 
 @Module({
   controllers: [UserController],
-  providers: [
-    UserService,
-    PrismaService,
-    JwtStrategy,
-    PromService,
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }
-  ]
+  providers: [UserService, PrismaService, JwtStrategy, PromService]
 })
 export class UserModule {}
