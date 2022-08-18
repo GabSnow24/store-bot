@@ -88,7 +88,6 @@ jobs:
           git commit -am "chore: change image tag"
       - name: Git Pull
         run: |
-          git config pull.rebase false
-          git pull origin master
+          git pull origin master --allow-unrelated-histories
       - name: Push
         uses: ad-m/github-push-action@master
