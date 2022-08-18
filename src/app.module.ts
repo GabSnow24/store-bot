@@ -21,8 +21,7 @@ import { APP_GUARD } from '@nestjs/core'
       },
       withHttpMiddleware: {
         enable: true
-      },
-      metricPath: 'prometheus'
+      }
     }),
     AuthModule,
     ScheduleModule.forRoot(),
