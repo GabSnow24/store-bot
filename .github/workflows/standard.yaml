@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   ci_docker_dev:
-    name: CI - Docker
+    name: ci_docker_dev
     needs: ci_test_sonar
     if: ${{ success() && github.event_name != 'pull_request_target' && github.event_name != 'push'}}
     runs-on: ubuntu-latest
@@ -61,3 +61,30 @@ jobs:
           context: .
           push: true
           tags: qzzdocker24/bot-wpp:${{ github.sha}}, qzzdocker24/bot-wpp:latest
+  deploy:
+    name: Deploy to K8S
+    needs: ci_docker_dev
+    if: ${{ success() && github.event_name != 'pull_request_target' && github.event_name != 'push'}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub Event Name
+        id: github_event_name
+        run: echo '${{ github.event_name }}'
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize_version: v3.6.1
+      - name: Update K8S
+        run: |
+          cd kube
+          cd dev
+          kustomize edit set image bot-wpp=qzzdocker24/bot-wpp:${{github.sha}}
+      - name: Commit tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Deploy Action"
+          git commit -am "chore: change image tag"
+      - name: push
+        uses: ad-m/github-push-action@master
