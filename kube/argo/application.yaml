@@ -1,4 +1,4 @@
-apiVersion: argoproj.io/v1aplha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: bot-wpp-argo
@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: https://github.com/GabSnow24/bot-wpp
     targetRevision: HEAD
-    path: master
+    path: src
   destination:
     server: https://kubernetes.default.svc
-    destination: bot-wpp
+    namespace: default
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
