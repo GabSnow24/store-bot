@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: bot-wpp
-          image: qzzdocker24/bot-wpp:dev
+          image: qzzdocker24/bot-wpp:latest
           resources:
             limits:
               memory: '128Mi'
