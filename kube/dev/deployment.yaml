@@ -6,7 +6,6 @@ spec:
   selector:
     matchLabels:
       app: bot-wpp
-  replicas: 2
   template:
     metadata:
       labels:

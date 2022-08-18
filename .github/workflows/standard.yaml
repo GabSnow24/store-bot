@@ -67,4 +67,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: qzzdocker24/bot-wpp:latest
+          tags: qzzdocker24/bot-wpp:${{ github.sha}}, qzzdocker24/bot-wpp:latest
