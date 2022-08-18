@@ -86,7 +86,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "chore: change image tag"
-      - name: Git Pull
-        run: git pull origin master --allow-unrelated-histories
       - name: Push
         uses: ad-m/github-push-action@master
+        with:
+          force_with_lease: true
