@@ -87,4 +87,4 @@ jobs:
           git config --local user.name "Deploy Action"
           git add --all .
           git commit -m "chore: change image tag"
-          git push
+          git push origin HEAD:master --force
