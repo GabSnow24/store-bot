@@ -44,7 +44,7 @@ jobs:
   ci_docker_dev:
     #remove from pull request
     name: CI - Docker
-    if: ${{ success() && github.event_name != 'pull_request_target' && github.ref == 'refs/heads/master' }}
+    if: ${{ success() && github.event_name != 'pull_request_target' && github.event_name != 'push'}}
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub Event Name
