@@ -37,3 +37,5 @@ jobs:
           git commit -am "chore: change image tag"
       - name: Push changes
         uses: ad-m/github-push-action@master
+        with:
+          force_with_lease: true
