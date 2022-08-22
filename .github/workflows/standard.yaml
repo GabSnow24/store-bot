@@ -19,9 +19,7 @@ jobs:
         run: echo '${{ github.event_name }}'
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      - run: git checkout HEAD^
+      - run: git checkout master
       - name: Kustomize
         uses: imranismail/setup-kustomize@v1
         with:
