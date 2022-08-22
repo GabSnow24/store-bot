@@ -6,6 +6,7 @@ spec:
   selector:
     app: bot-wpp
   ports:
-    - port: 80
-      targetPort: 8080
+    - name: bot-service-port
+      port: 80
+      targetPort: api-port
   type: LoadBalancer

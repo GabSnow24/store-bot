@@ -14,4 +14,4 @@ Checklist:
 
 - [ ] Documentação necessária (swagger, testes e etc)
 
-[Card Jira AUR-XXX](https://vcogrupoboticario.atlassian.net/browse/AUR-XXX)
+[Card Trello - XXX](https://vcogrupoboticario.atlassian.net/browse/AUR-XXX)

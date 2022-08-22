@@ -13,13 +13,14 @@ spec:
     spec:
       containers:
         - name: bot-wpp
-          image: qzzdocker24/bot-wpp:latest
+          image: bot-wpp
           resources:
             limits:
               memory: '128Mi'
               cpu: '500m'
           ports:
-            - containerPort: 8080
+            - name: api-port
+              containerPort: 8080
           env:
             - name: DB_USER
               valueFrom:
