@@ -19,6 +19,11 @@ jobs:
         run: echo '${{ github.event_name }}'
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Create branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Deploy Action"
+          git checkout -b ci_changes
       - name: Kustomize
         uses: imranismail/setup-kustomize@v1
         with:
@@ -33,8 +38,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "chore: change image tag"
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
