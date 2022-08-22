@@ -28,15 +28,15 @@ jobs:
           cd kube
           cd dev
           kustomize edit set image bot-wpp=qzzdocker24/bot-wpp:${{github.sha}}
-      - name: Checkout to master
-        uses: actions/checkout@v3
-        with:
-          ref: master
       - name: Commit tag
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Deploy Action"
           git commit -am "chore: change image tag"
+      - name: Checkout to master
+        uses: actions/checkout@v3
+        with:
+          ref: master
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
