@@ -19,6 +19,8 @@ jobs:
         run: echo '${{ github.event_name }}'
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: master
       - name: Kustomize
         uses: imranismail/setup-kustomize@v1
         with:
@@ -34,7 +36,6 @@ jobs:
           git config --local user.name "Deploy Action"
           git add .
           git commit -m "chore: change image tag"
-          git checkout HEAD:master
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
