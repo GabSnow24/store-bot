@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: master
+          repository: GabSnow24/bot-wpp-config
       - name: Kustomize
         uses: imranismail/setup-kustomize@v1
         with:
