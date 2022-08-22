@@ -34,7 +34,7 @@ jobs:
           git config --local user.name "Deploy Action"
           git add .
           git commit -m "chore: change image tag"
-          git status
+          git checkout HEAD:master
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
