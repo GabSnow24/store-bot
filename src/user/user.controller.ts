@@ -15,6 +15,11 @@ export class UserController {
     return this.userService.create(createUserDto)
   }
 
+  @Get('hello')
+  getHello() {
+    return this.userService.getHello()
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
