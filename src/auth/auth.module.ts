@@ -8,6 +8,7 @@ import { PrismaService } from '../prisma/prisma.service'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtStrategy } from './jwt.strategy'
 import { LocalStrategy } from './local.strategy'
+import { ClientsModule, Transport } from '@nestjs/microservices'
 
 @Module({
   imports: [
@@ -16,7 +17,20 @@ import { LocalStrategy } from './local.strategy'
     JwtModule.register({
       secret: process.env.SESSION_SECRET,
       signOptions: { expiresIn: '60s' }
-    })
+    }),
+    ClientsModule.register([
+      {
+        name: 'WPP_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://localhost:5672'],
+          queue: 'wpp_queue',
+          queueOptions: {
+            durable: false
+          }
+        }
+      }
+    ])
   ],
   providers: [PrismaService, UserService, AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController]

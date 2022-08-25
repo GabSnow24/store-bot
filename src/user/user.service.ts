@@ -1,8 +1,9 @@
-import { ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { ConflictException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { passwordHasher } from '../utils/encrypt.utils'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { ClientProxy } from '@nestjs/microservices'
 
 const userInfoReturn = {
   id: true,
@@ -12,7 +13,11 @@ const userInfoReturn = {
 }
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, @Inject('WPP_SERVICE') private client: ClientProxy) {}
+
+  getHello() {
+    return this.client.send({ cmd: 'wpp-hello' }, 'Progressive Coder')
+  }
 
   async create(data: CreateUserDto) {
     const { cellphone, username, password } = data
