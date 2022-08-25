@@ -10,7 +10,15 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService, PrismaService, PromService]
+      providers: [
+        UserService,
+        {
+          provide: 'WPP_SERVICE',
+          useValue: 'default'
+        },
+        PrismaService,
+        PromService
+      ]
     }).compile()
 
     controller = module.get<UserController>(UserController)

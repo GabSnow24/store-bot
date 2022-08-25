@@ -15,7 +15,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices'
         name: 'WPP_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
+          urls: [process.env.RABBIT_URL as string],
           queue: 'wpp_queue',
           queueOptions: {
             durable: false
