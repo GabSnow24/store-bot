@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common'
-import { UserModule } from './user/user.module'
 import { PromModule } from '@digikare/nestjs-prom'
-import { AuthModule } from './auth/auth.module'
 import { LoggingModule } from './common/logging.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { EventEmitterModule } from '@nestjs/event-emitter'
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { APP_GUARD } from '@nestjs/core'
+import { WppModule } from './wpp/wpp.module';
 
 //IMPLEMENT RATE LIMIT
 @Module({
   imports: [
-    UserModule,
     LoggingModule,
     EventEmitterModule.forRoot(),
     PromModule.forRoot({
@@ -23,12 +21,12 @@ import { APP_GUARD } from '@nestjs/core'
         enable: true
       }
     }),
-    AuthModule,
     ScheduleModule.forRoot(),
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 10
-    })
+    }),
+    WppModule
   ],
   controllers: [],
   providers: [
@@ -38,4 +36,4 @@ import { APP_GUARD } from '@nestjs/core'
     }
   ]
 })
-export class AppModule {}
+export class AppModule { }

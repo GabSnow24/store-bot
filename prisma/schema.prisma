@@ -11,31 +11,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String @id @default(uuid())
-  cellphone String
-  username  String @unique
-  password  String
-  log       Log?
-  role      Roles
-}
-
-model Log {
+model Flow {
   id        String   @id @default(uuid())
+  name      String
   timeStamp DateTime
-  action    String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique
-  type      LogType
+  block     Block[]
 }
 
-enum Roles {
-  ADMIN
-  USER
+model Block {
+  id            String   @id @default(uuid())
+  name          String
+  timeStamp     DateTime
+  option        Option[]
+  Flow          Flow?    @relation(fields: [flowId], references: [id])
+  flowId        String?
+  nextBlockId   String?  @unique
+  nextBlocks    Block[]  @relation("BlockList")
+  previousBlock Block?   @relation("BlockList", fields: [nextBlockId], references: [id])
 }
 
-enum LogType {
-  INFO
-  WARN
-  ERROR
+model Option {
+  id        String   @id @default(uuid())
+  name      String
+  content   String
+  timeStamp DateTime
+  Block     Block?   @relation(fields: [blockId], references: [id])
+  blockId   String?
 }

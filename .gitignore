@@ -21,6 +21,8 @@ lerna-debug.log*
 /coverage
 /.nyc_output
 
+auth_info_baileys
+
 # IDEs and editors
 /.idea
 .project
